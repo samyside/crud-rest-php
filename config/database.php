@@ -3,28 +3,26 @@
  * Соединение с базой данных
  */
 class Database {
-	$host = "localhost";
-	$db_name = "api_db";
-	$username = "root";
-	$password = "root";
-	$connection = null;
-	
-	function __construct()
-	{
-	}
+	private $host = "127.0.0.1";
+	private $db_name = "api_db";
+	private $username = "root";
+	private $password = "root";
+	private $connection = NULL;
 
 	public function getConnection() {
 			try {
-			$connection = new PDO(
-				"mysql:host=" . db_name .
-				";dbname=" . db_name . username . password
+			$this->connection = new PDO(
+				"mysql:host=" . $this->host .
+				";dbname=" . $this->db_name, 
+				$this->username, 
+				$this->password
 			);
+			$this->connection->exec("set names utf8");
 		} catch (PDOException $e) {
-			echo "Connection error" . $e->getMessage();
+			echo "Failed database connection: " . $e->getMessage();
 		}
-		return $connection;
+		return $this->connection;
 	}
 }
-
 
 ?>
