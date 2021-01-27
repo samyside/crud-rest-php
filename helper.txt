@@ -3,22 +3,22 @@ Helper
 Справочник по функция, которые я узнал в ходе создания приложения, изучение.
 
 var_dump($var)
-	отображает true/false
+	Отображает true/false. Выводит содержимое массива.
 
 ===
-	Сравнение сущностей по их типу. В случае совпадения возвращает true
+	Сравнение сущностей по их типу. В случае совпадения возвращает true.
 
-bool isset(var)
-	Определяет, было ли что-то присвоено переменной кроме null
+isset(var) : bool
+	Определяет, было ли что-то присвоено переменной кроме null. Булевое значение можно посмотреть var_dump().
 
-string rtrim(string, string "\n\r\t\v\0")
-	Возвращает строку с удалёнными в конце входной строки специальные символы
+rtrim(string, string "\n\r\t\v\0") : string
+	Возвращает строку с удалёнными в конце входной строки специальные символы.
 
-array explode(string $separator, $string, int $limit)
+explode(string $separator, $string, int $limit) : array
 	Возвращает массив строк. Аналог split();
 
-mixed json_decode(string)
-	Принимает закодированный JSON, возвращает массив
+json_decode(string) : mixed
+	Принимает закодированный JSON, возвращает массив.
 
-string json_encode(mixed $value)
-	Принимает массив, возвращает строку JSON
+json_encode(mixed $value) : string
+	Принимает массив, возвращает строку JSON.
