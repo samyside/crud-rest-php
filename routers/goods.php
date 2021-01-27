@@ -1,5 +1,4 @@
 <?php 
-
 // TODO Получение данных из БД по запросу
 include_once $_SERVER['DOCUMENT_ROOT']. '/config/database.php';
 include_once $_SERVER['DOCUMENT_ROOT']. '/objects/good.php';
@@ -10,37 +9,16 @@ function route($method, $urlData, $formData) {
 	$good = new Good($connection);
 
 	// Получение инфы о товаре
-	// GET /goods/{goodId}
 	if ($method === 'GET' && count($urlData) === 0) {
-		$goods = array();
-		$goods = $good->getAll();
-		echo json_encode($goods);
+		$arrayGoods = array();
+		$arrayGoods = $good->getAll();
+		echo json_encode($arrayGoods);
 		return;
 	} elseif ($method === 'GET' && count($urlData) === 1) {
+		http_response_code(200);
 		// Получаем id товара
-		$goodId = $urlData[0];
-
-		// Вытаскиваем из базы данных SQL
-		// $query = "SELECT id, good, price FROM products";
-		// $stmt = $database->prepare($query);
-		// $stmt->bindParam(1, goodId);
-		// $stmt->execute();
-		// $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-		echo json_encode(array(
-			'method' => 'GET',
-			'id' => $goodId,
-			'good' => 'phone',
-			'price' => 1000
-		));
-		return;
-
-		// Если код выше не отработал,
-		// возвращаем ошибку
-		header('HTTP/1.0 400 Bad Request');
-		echo json_encode(array(
-			'error' => 'BadRequest'
-		));
+		$goods = $good->getById($urlData[0]);
+		echo json_encode($goods);
 	} elseif ($method === 'POST' && empty($urlData)) {
 		// TODO Добавляем товар в базу данных
 
@@ -51,6 +29,10 @@ function route($method, $urlData, $formData) {
 			"formData" => $formData
 		));
 		return;
+	} else {
+		// возвращаем ошибку
+		header('HTTP/1.0 400 Bad Request');
+		echo json_encode(array("error" => "Wrong HTTP-method or parameter"));
 	}
 }
 ?>

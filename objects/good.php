@@ -35,5 +35,21 @@ class Good {
 		}
 		return $allGoods;
 	}
+
+	public function getById($id) {
+		$arrayGoods = array();
+		$query = "SELECT id, name, price FROM goods WHERE id=?";
+		$statement = $this->db->prepare($query);
+		$statement->bindValue(1, $id);
+		$statement->execute();
+		$row = $statement->fetch(PDO::FETCH_ASSOC);
+		extract($row);
+		$arrayGoods = array(
+			"id" => $id,
+			"name" => $name,
+			"price" => $price
+		);
+		return $arrayGoods;
+	}
 }
 ?>
