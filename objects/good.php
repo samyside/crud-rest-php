@@ -37,19 +37,35 @@ class Good {
 	}
 
 	public function getById($id) {
-		$arrayGoods = array();
+		$goods = array();
 		$query = "SELECT id, name, price FROM goods WHERE id=?";
 		$statement = $this->db->prepare($query);
 		$statement->bindValue(1, $id);
 		$statement->execute();
 		$row = $statement->fetch(PDO::FETCH_ASSOC);
 		extract($row);
-		$arrayGoods = array(
+		$goods = array(
 			"id" => $id,
 			"name" => $name,
 			"price" => $price
 		);
-		return $arrayGoods;
+		return $goods;
+	}
+
+	public function createGood($name, $price) {
+		$goods = array();
+		$query = "INSERT INTO goods (name, price) VALUES (?, ?)";
+		$statement = $this->db->prepare($query);
+		
+		$statement->bindParam(1, $name);
+		$statement->bindParam(2, $price);
+		if ($statement->execute()) {
+			http_response_code(201);
+			echo json_encode(array("message" => "Good has been created"));
+		} else {
+			http_response_code(503);
+			echo json_encode(array("message" => "Error! Could not create a good"));
+		}
 	}
 }
 ?>

@@ -13,7 +13,6 @@ function route($method, $urlData, $formData) {
 		$arrayGoods = array();
 		$arrayGoods = $good->getAll();
 		echo json_encode($arrayGoods);
-		return;
 	} elseif ($method === 'GET' && count($urlData) === 1) {
 		http_response_code(200);
 		// Получаем id товара
@@ -21,14 +20,9 @@ function route($method, $urlData, $formData) {
 		echo json_encode($goods);
 	} elseif ($method === 'POST' && empty($urlData)) {
 		// TODO Добавляем товар в базу данных
-
-		// Вывод ответ клиенту
-		echo json_encode(array(
-			"method" => "POST",
-			"id" => rand(1, 100),
-			"formData" => $formData
-		));
-		return;
+		$name  = $formData['name'];
+		$price = $formData['price'];
+		$good->createGood($name, $price);
 	} else {
 		// возвращаем ошибку
 		header('HTTP/1.0 400 Bad Request');
