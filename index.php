@@ -35,7 +35,7 @@ $urlData = array_slice($urls, 1);
 if ($router === "") {
 	require "index.html";
 } else {
-	include 'routers/' . $router . '.php';
+	include 'api/' . $router . '.php';
 	route($method, $urlData, $formData);
 }
 
