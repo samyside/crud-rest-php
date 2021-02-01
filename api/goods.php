@@ -20,8 +20,9 @@ function route($method, $urlData, $formData) {
 		echo json_encode($goods);
 	} elseif ($method === 'POST' && empty($urlData)) {
 		// TODO Добавляем товар в базу данных
-		$name  = $formData['name'];
-		$price = $formData['price'];
+		$goodData = json_decode($formData);
+		$name  = $goodData->name;
+		$price = $goodData->price;
 		$good->createGood($name, $price);
 	} else {
 		// возвращаем ошибку

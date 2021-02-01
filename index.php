@@ -6,7 +6,8 @@ $formData = getFormData($method);
 function getFormData($method) {
     // GET или POST: данные возвращаем как есть
     if ($method === 'GET') return $_GET;
-    if ($method === 'POST') return $_POST;
+    // if ($method === 'POST') return $_POST;
+    if ($method === 'POST') return file_get_contents("php://input");
  
     // PUT, PATCH или DELETE
     $data = array();
@@ -35,7 +36,7 @@ $urlData = array_slice($urls, 1);
 if ($router === "") {
 	require "index.html";
 } else {
-	include 'api/' . $router . '.php';
+	include_once $_SERVER['DOCUMENT_ROOT'] . '/api/' . $router . '.php';
 	route($method, $urlData, $formData);
 }
 
