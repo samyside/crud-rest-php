@@ -1,0 +1,36 @@
+body {
+	font-family: Consolas, Collibri, sans-serif;
+}
+
+h1 {
+	text-align: center;
+}
+
+fieldset {
+	width: 80%;
+	margin: 40px auto;
+}
+
+table {
+	margin-top: 15px;
+	table-layout: fixed;
+	border: 3px solid blue;
+	border-collapse: collapse;
+	width: 60%;
+}
+
+tr th, tr td {
+	border: 1px solid black;
+}
+
+thead th:nth-child(1) {
+	width: 15%;
+}
+
+thead th:nth-child(2) {
+	width: 50%;
+}
+
+thead th:nth-child(3) {
+	width: 35%;
+}

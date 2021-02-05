@@ -2,10 +2,31 @@
 <html>
 <head>
 	<title>Index page</title>
+	<link rel="stylesheet" type="text/css" href="assets/style.css">
 </head>
 <body>
-	<h1>Hello</h1>
-	<h2>This is simple REST application</h2>
-	<p>The application can do basic features such as create, find, edit.</p>
+	<h1>Simple REST application <br>using HTML, CSS, PHP</h1>
+	<fieldset>
+		<legend><h2>Get good by <span class="code">id</span></h2></legend>
+		<form>
+			<input type="text" name="find-by-id">
+			<input type="button" name="submit-id" value="send">
+		</form>
+
+		<table class="result-find-by-id">
+			<thead>
+				<tr class="header-result-id">
+					<th>id</th>
+					<th>Name</th>
+					<th>Price</th>
+				</tr>
+			</thead>
+			<tr><td>23</td><td>Laptop</td><td>1200</td></tr>
+			<tr><td>2335452</td><td>Mouse</td><td>15</td></tr>
+			<tr><td>235</td><td>Wallpaper</td><td>63</td></tr>
+			<tr><td>2</td><td>Laminate floor</td><td>40.65</td></tr>
+		</table>
+	</fieldset>
+	<script type="text/javascript" src="assets/main.js"></script>
 </body>
 </html>
