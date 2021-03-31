@@ -13,7 +13,7 @@ class Good {
 	}
 
 	public function getAll() {
-		$allGoods = array();
+		$goods = array();
 		$query = 'SELECT id, name, price FROM goods';
 		$statement = $this->db->prepare($query);
 		$statement->execute();
@@ -26,29 +26,36 @@ class Good {
 					"name" => $name,
 					"price" => $price
 				);
-				array_push($allGoods, $lastRow);
+				array_push($goods, $lastRow);
 			}
 		} else {
 			return array(
 				"message" => "goods not found"
 			);
 		}
-		return $allGoods;
+		return $goods;
 	}
 
 	public function getById($id) {
-		$goods = array();
 		$query = "SELECT id, name, price FROM goods WHERE id=?";
 		$statement = $this->db->prepare($query);
 		$statement->bindValue(1, $id);
 		$statement->execute();
 		$row = $statement->fetch(PDO::FETCH_ASSOC);
-		extract($row);
-		$goods = array(
-			"id" => $id,
-			"name" => $name,
-			"price" => $price
-		);
+
+		// Обработка пустого ответа
+		if (
+			is_null($row['name']) &&
+			is_null($row['price'])
+		) {
+			$goods = array('message' => 'no matches found');
+		} else {
+			$goods = array(
+				"id" => $row['id'],
+				"name" => $row['name'],
+				"price" => $row['price']
+			);
+		}
 		return $goods;
 	}
 

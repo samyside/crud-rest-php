@@ -22,19 +22,22 @@ function getFormData($method) {
 }
 
 // Получаем значение параметра ?q=value в адресной строке
-$url = (isset($_GET['q'])) ? $_GET['q'] : '';
+// Сохранил для примера как обрабатывать get-переменную
+// $url = (isset($_GET['q'])) ? $_GET['q'] : '';
+
 // Удаляем последний слэш если есть
 $url = rtrim($url, '/');
 // Получаем массив /goods/10/sort/asc...
 $urls = explode('/', $url);
 
 // Определяем роутер и url data
-$router = $urls[0];
-$urlData = array_slice($urls, 1);
+$router = $urls[1];
+var_dump($urls);
+$urlData = array_slice($urls, 2);
 
 // Подключем файл-проутер и запускаем главную функцию
 if ($router === "") {
-	require "index.html";
+	require $_SERVER['DOCUMENT_ROOT'] . "/index.html";
 } else {
 	include_once $_SERVER['DOCUMENT_ROOT'] . '/api/' . $router . '.php';
 	route($method, $urlData, $formData);
