@@ -59,6 +59,32 @@ class Good {
 		return $goods;
 	}
 
+	public function getByName($name='') {
+		$goods = array();
+		$query = "SELECT id, name, category FROM goods WHERE name LIKE '%:name%";
+		$statement = $this->db->prepare($query);
+		bindValue(1, $name);
+		$statement->execute();
+		$row = $statement->fetch(PDO::FETCH_ASSOC);
+
+		// Обработка пустого ответа
+		if (
+			is_null($row['id']) &&
+			is_null($row['name'])
+		) {
+			$goods = [
+				'message' => 'no matches found'
+			];
+		} else {
+			$goods = [
+				'id' => row['id'],
+				'name' => row['name'],
+				'category' => row['category']
+			];
+		}
+		return $goods;
+	}
+
 	public function createGood($name, $price) {
 		$goods = array();
 		$query = "INSERT INTO goods (name, price) VALUES (?, ?)";
@@ -68,10 +94,10 @@ class Good {
 		$statement->bindParam(2, $price);
 		if ($statement->execute()) {
 			http_response_code(201);
-			echo json_encode(array("message" => "Good has been created"));
+			return json_encode(array("message" => "Good has been created"));
 		} else {
 			http_response_code(503);
-			echo json_encode(array("message" => "Error! Could not create a good"));
+			return json_encode(array("message" => "Error! Could not create a good"));
 		}
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 $method = $_SERVER['REQUEST_METHOD'];
 $formData = getFormData($method);
 
@@ -6,7 +7,6 @@ $formData = getFormData($method);
 function getFormData($method) {
     // GET или POST: данные возвращаем как есть
     if ($method === 'GET') return $_GET;
-    // if ($method === 'POST') return $_POST;
     if ($method === 'POST') return file_get_contents("php://input");
  
     // PUT, PATCH или DELETE
@@ -21,23 +21,28 @@ function getFormData($method) {
     return $data;
 }
 
-// Получаем значение параметра ?q=value в адресной строке
-// Сохранил для примера как обрабатывать get-переменную
-// $url = (isset($_GET['q'])) ? $_GET['q'] : '';
-
+// Принимает параметры из строки 
+// api/goods/{action}/[{parameter}]/[{additional_parameter}]
+// api/goods/show/id/1
+// api/goods/show/name/monitor | table
+// api/goods/create
+// api/goods/put
+// api/goods/delete
+$url = (isset($_GET['q'])) ? $_GET['q'] : '';
 // Удаляем последний слэш если есть
 $url = rtrim($url, '/');
-// Получаем массив /goods/10/sort/asc...
+// Разбивает полученную строку из адресной строки
+// и преобразует в массив, где url[0] - api/
+// TODO Исправить url[0]. Нулевым элементом массивом должно быть действие
 $urls = explode('/', $url);
 
 // Определяем роутер и url data
 $router = $urls[1];
-var_dump($urls);
 $urlData = array_slice($urls, 2);
 
 // Подключем файл-проутер и запускаем главную функцию
 if ($router === "") {
-	require $_SERVER['DOCUMENT_ROOT'] . "/index.html";
+	require $_SERVER['DOCUMENT_ROOT'] . '/index.html';
 } else {
 	include_once $_SERVER['DOCUMENT_ROOT'] . '/api/' . $router . '.php';
 	route($method, $urlData, $formData);
