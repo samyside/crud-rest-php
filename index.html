@@ -1,32 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Index page</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="assets/style.css">
+	<title>Main page</title>
 </head>
 <body>
-	<h1>Simple REST application <br>using HTML, CSS, PHP</h1>
-	<fieldset>
-		<legend><h2>Get good by <span class="code">id</span></h2></legend>
-		<form>
-			<input type="text" name="find-by-id">
-			<input type="button" name="submit-id" value="send">
-		</form>
+	<head>
+		<h1>What it's page about</h1>
+	</head>
+	<main>
+		<div class="title">
+			<h2>You are at the main page of the project</h2>
+			<p>Full description</p>
+		</div>
+		<nav>
+			<ul>
+				<li><a href="find-by-id.html">Поиск по id</a></li>
+				<li><a href="find-by-name.html">Поиск по имени (name)</a></li>
+				<li><a href="create.html">Создание новой записи</a></li>
+				<li><a href="edit.html">Редактирование записи по id</a></li>
+				<li><a href="delete.html">Удаление записи по id</a></li>
+			</ul>
+		</nav>
 
-		<table class="result-find-by-id">
-			<thead>
-				<tr class="header-result-id">
-					<th>id</th>
-					<th>Name</th>
-					<th>Price</th>
-				</tr>
-			</thead>
-			<tr><td>23</td><td>Laptop</td><td>1200</td></tr>
-			<tr><td>2335452</td><td>Mouse</td><td>15</td></tr>
-			<tr><td>235</td><td>Wallpaper</td><td>63</td></tr>
-			<tr><td>2</td><td>Laminate floor</td><td>40.65</td></tr>
-		</table>
-	</fieldset>
+	</main>
 	<script type="text/javascript" src="assets/main.js"></script>
 </body>
 </html>
