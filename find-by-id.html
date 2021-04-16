@@ -11,23 +11,21 @@
 	<fieldset>
 		<legend><h2>Get good by <span class="code">id</span></h2></legend>
 		<form>
-			<input type="text" name="find-by-id">
-			<input type="button" name="submit-id" value="send">
+			<input type="number" onkeyup="getById()" id="inputID">
+			<!-- <input type="button" onclick="getById()" value="send"> -->
 		</form>
 
+		<table class="result-find-by-id">
+			<thead>
+				<tr class="header-result-id">
+					<th>id</th>
+					<th>Name</th>
+					<th>Price</th>
+				</tr>
+			</thead>
+			<tr><td id="id"></td><td id="name"></td><td id="price"></td></tr>
+		</table>
 	</fieldset>
-	<table class="result-find-by-id">
-		<thead>
-			<tr class="header-result-id">
-				<th>id</th>
-				<th>Name</th>
-				<th>Price</th>
-			</tr>
-		</thead>
-		<tr><td>23</td><td>Laptop</td><td>1200</td></tr>
-		<tr><td>2335452</td><td>Mouse</td><td>15</td></tr>
-		<tr><td>235</td><td>Wallpaper</td><td>63</td></tr>
-		<tr><td>2</td><td>Laminate floor</td><td>40.65</td></tr>
-	</table>
+	<script type="text/javascript" src="assets/main.js"></script>
 </body>
 </html>
