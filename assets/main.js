@@ -1,50 +1,21 @@
-async function getById() {
-	// Определение переменных
-	let inputID = document.querySelector('#inputID');
-	const hostname = window.location.hostname;
-	let url = 'http://' + hostname + '/api/goods/' + inputID.value;
-	console.log(url);
-	let result = {
-		id: null,
-		name: null,
-		price: null
-	};
-	let price = document.querySelector('#price');
-	let id = document.querySelector('#id');
-	let name = document.querySelector('#name');
 
-	// Получение массива данных
+async function getGood() {
+	const inputId = document.querySelector('#inputId');
+	const url = 'http://simple-rest/api/goods/' + inputId.value;
+	let id = document.querySelector('#id');
+	console.log(id.value);
+	let name = document.querySelector('#name');
+	let price = document.querySelector('#price');
 	let response = await fetch(url);
 	if (response.ok) {
-		result = await response.json();
+		const result = await response.json();
+		console.log(result);
+		id.innerText = result.id;
+		name.innerText = result.name;
+		price.innerText = result.price;
 	} else {
-		result = {message: "Error! Could not get response."};
-	}
-
-	// Вывод первого элемента массива
-	console.log('Первый элемент массива');
-	console.log('  object = ' + result);
-	console.log('  id = ' + result.id);
-	console.log('  name = ' + result.name);
-	console.log('  price = ' + result.price);
-
-	// Вставка данных из результата в HTML-код
-	if (inputID.value === '') {
-		id.innerHTML = '';
-		name.innerHTML = '';
-		price.innerHTML = '';
-	} else if (
-		typeof result.id === 'undefined' &&
-		typeof result.name === 'undefined' &&
-		typeof result.price === 'undefined'
-	) {
-		id.innerHTML = inputID.value;
-		name.innerHTML = 'Не найдено';
-		price.innerHTML = '';
-	} else {
-		id.innerHTML = result.id;
-		name.innerHTML = result.name;
-		price.innerHTML = result.price;
+		id.innerText = '';
+		name.innerText = 'Не найдено';
+		price.innerText = '';
 	}
 }
-
