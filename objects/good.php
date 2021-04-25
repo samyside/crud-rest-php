@@ -12,30 +12,52 @@ class Good {
 		$this->db = $db;
 	}
 
+	/*
+	* api/goods
+	* Получение всех товаров
+	*/
 	public function getAll() {
-		$goods = array();
-		$query = 'SELECT id, name, price FROM goods';
-		$statement = $this->db->prepare($query);
+		$result = array(
+			'error' => false,
+			'message' => '',
+			'count' => 0,
+			'goods' => array()
+		);
+		$count = 0;
+		$queryGoods = 'SELECT id, name, price FROM goods';
+		$statement = $this->db->prepare($queryGoods);
 		$statement->execute();
 		if ($statement->rowCount() > 0) {
 			while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
 				http_response_code(200);
 				extract($row);
 				$lastRow = array(
-					"id" => $id,
-					"name" => $name,
-					"price" => $price
+					'id' => $id,
+					'name' => $name,
+					'price' => $price
 				);
-				array_push($goods, $lastRow);
+				array_push($result['goods'], $lastRow);
+				// $count++;
 			}
+			$result['count'] = $statement->rowCount();
+			$result['message'] = 'success';
 		} else {
 			return array(
-				"message" => "goods not found"
+				http_response_code(404),
+				'error' => true,
+				'message' => 'goods not found',
+				'count' => 0,
+				'goods' => NULL
 			);
 		}
-		return $goods;
+		http_response_code(200);
+		return $result;
 	}
 
+	/*
+	* api/goods/{id}
+	* Получение одного товара по номеру id
+	*/
 	public function getById($id) {
 		$query = "SELECT id, name, price FROM goods WHERE id=?";
 		$statement = $this->db->prepare($query);
@@ -45,20 +67,26 @@ class Good {
 
 		// Обработка пустого ответа
 		if (
-			is_null($row['name']) &&
-			is_null($row['price'])
+			!is_null($row['name']) &&
+			!is_null($row['price'])
 		) {
-			$goods = array('message' => 'no matches found');
-		} else {
 			$goods = array(
 				"id" => $row['id'],
 				"name" => $row['name'],
 				"price" => $row['price']
 			);
+		} else {
+			http_response_code(404);
+			$goods = array('message' => 'no matches found');
 		}
+		http_response_code(200);
 		return $goods;
 	}
 
+	/*
+	* api/goods/name/{string}
+	* Получение массива товаров по названию (name).
+	*/
 	public function getByName($name='') {
 		$goods = array();
 		$query = "SELECT id, name, category FROM goods WHERE name LIKE '%:name%";
@@ -69,22 +97,29 @@ class Good {
 
 		// Обработка пустого ответа
 		if (
-			is_null($row['id']) &&
-			is_null($row['name'])
+			!is_null($row['id']) &&
+			!is_null($row['name'])
 		) {
-			$goods = [
-				'message' => 'no matches found'
-			];
-		} else {
 			$goods = [
 				'id' => row['id'],
 				'name' => row['name'],
 				'category' => row['category']
 			];
+		} else {
+			http_response_code(404);
+			$goods = [
+				'message' => 'no matches found'
+			];
 		}
+		http_response_code(200);
 		return $goods;
 	}
 
+	/*
+	* [POST] api/goods
+	* Создание новой записи. Отправляется JSON формата:
+	* {"name": "item", "price": 1.99}
+	*/
 	public function createGood($name, $price) {
 		$goods = array();
 		$query = "INSERT INTO goods (name, price) VALUES (?, ?)";
@@ -96,7 +131,7 @@ class Good {
 			http_response_code(201);
 			return json_encode(array("message" => "Good has been created"));
 		} else {
-			http_response_code(503);
+			http_response_code(409);
 			return json_encode(array("message" => "Error! Could not create a good"));
 		}
 	}

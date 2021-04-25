@@ -1,7 +1,7 @@
-
 async function getGood() {
 	const inputId = document.querySelector('#inputId');
-	const url = 'http://simple-rest/api/goods/' + inputId.value;
+	let url = 'http://simple-rest/api/goods/' + inputId.value;
+	console.log(url);
 	let id = document.querySelector('#id');
 	console.log(id.value);
 	let name = document.querySelector('#name');
@@ -19,3 +19,8 @@ async function getGood() {
 		price.innerText = '';
 	}
 }
+
+var myModal = document.getElementById('exampleModal')
+myModal.addEventListener('shown.bs.modal', function () {
+  myInput.focus()
+})

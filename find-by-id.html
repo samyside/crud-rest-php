@@ -44,20 +44,17 @@
 </nav>
 <div class="p-3 mb-3 bg-dark">
 	<div class="input-group mb-3">
-	  <span class="input-group-text" id="basic-addon1">Поиск по имени</span>
-	  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" id="inputId" onkeyup="getGood()">
+	  <span class="input-group-text" id="basic-addon1">Поиск по id</span>
+	  <input type="text" class="form-control" placeholder="id" aria-label="id" aria-describedby="basic-addon1" id="inputId" onkeyup="getGood()">
 	</div>
 </div>
 <table class="table table-dark">
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Имя</th>
-      <th scope="col">Партия</th>
-      <th scope="col">Стеллаж</th>
-      <th scope="col">Полка</th>
-      <th scope="col">Кол</th>
-      <th scope="col">Action</th>
+      <th scope="col">Наименование</th>
+      <th scope="col">Цена</th>
+      <th scope="col">Действие</th>
     </tr>
   </thead>
   <tbody>
@@ -65,31 +62,41 @@
       <th scope="row" id="id">1</th>
       <td id="name">157805</td>
       <td id="price">194288</td>
-      <td></td>
-      <td></td>
-      <td>1</td>
-      <td><button type="button" class="btn btn-primary">Добавить</button></td>
+      <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Добавить</button></td>
     </tr>
     <tr>
       <th scope="row">2</th>
       <td>157805</td>
       <td>400116</td>
-      <td>70</td>
-      <td>1</td>
-      <td>4</td>
-      <td><button type="button" class="btn btn-primary">Добавить</button></td>
+      <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Добавить</button></td>
     </tr>
     <tr>
       <th scope="row">3</th>
       <td>PL 71140-45</td>
       <td>1030</td>
-      <td>53</td>
-      <td>3</td>
-      <td>3</td>
-      <td><button type="button" class="btn btn-primary">Добавить</button></td>
+      <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Добавить</button></td>
     </tr>
   </tbody>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
     <!-- Optional JavaScript; choose one of the two! -->
 
