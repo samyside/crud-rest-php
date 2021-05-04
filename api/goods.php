@@ -20,6 +20,9 @@ function route($method, $urlData, $formData) {
 		// Получаем id товара
 		$goods = $good->getById($urlData[0]);
 		echo json_encode($goods);
+	} elseif ($method === 'GET' &&  $urlData[0] === 'name') {
+		$goods = $good->getByName($urlData[1]);
+		echo json_encode($goods);
 	} elseif ($method === 'POST' && empty($urlData)) {
 		// TODO Добавляем товар в базу данных
 		var_dump($formData);

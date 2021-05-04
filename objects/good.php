@@ -75,11 +75,11 @@ class Good {
 				"name" => $row['name'],
 				"price" => $row['price']
 			);
+			http_response_code(200);
 		} else {
 			http_response_code(404);
 			$goods = array('message' => 'no matches found');
 		}
-		http_response_code(200);
 		return $goods;
 	}
 
@@ -88,31 +88,37 @@ class Good {
 	* Получение массива товаров по названию (name).
 	*/
 	public function getByName($name='') {
-		$goods = array();
-		$query = "SELECT id, name, category FROM goods WHERE name LIKE '%:name%";
+		$result = array(
+			'error' => true,
+			'message' => 'unknown error',
+			'count' => 0,
+			'goods' => array()
+		);
+		$query = 'SELECT id, name, price FROM goods WHERE name LIKE ?';
 		$statement = $this->db->prepare($query);
-		bindValue(1, $name);
+		$statement->bindValue(1, "%${name}%");
 		$statement->execute();
-		$row = $statement->fetch(PDO::FETCH_ASSOC);
 
 		// Обработка пустого ответа
-		if (
-			!is_null($row['id']) &&
-			!is_null($row['name'])
-		) {
-			$goods = [
-				'id' => row['id'],
-				'name' => row['name'],
-				'category' => row['category']
-			];
+		if ($statement->rowCount() > 0) {
+			$result['error'] = false;
+			$result['message'] = 'success';
+			$result['count'] = $statement->rowCount();
+			while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+				extract($row);
+				$lastRow = array(
+					'id' => $id,
+					'name' => $name,
+					'price' => $price
+				);
+				array_push($result['goods'], $lastRow);
+			}
+			http_response_code(200);
 		} else {
+			$result['message'] = 'no matches found';
 			http_response_code(404);
-			$goods = [
-				'message' => 'no matches found'
-			];
 		}
-		http_response_code(200);
-		return $goods;
+		return $result;
 	}
 
 	/*
