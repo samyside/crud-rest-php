@@ -15,13 +15,13 @@ function route($method, $urlData, $formData) {
 		$arrayGoods = array();
 		$arrayGoods = $good->getAll();
 		echo json_encode($arrayGoods);
+	} elseif ($method === 'GET' &&  $urlData[0] === 'name') {
+		$goods = $good->getByName($urlData[1]);
+		echo json_encode($goods);
 	} elseif ($method === 'GET' && count($urlData) === 1) {
 		http_response_code(200);
 		// Получаем id товара
 		$goods = $good->getById($urlData[0]);
-		echo json_encode($goods);
-	} elseif ($method === 'GET' &&  $urlData[0] === 'name') {
-		$goods = $good->getByName($urlData[1]);
 		echo json_encode($goods);
 	} elseif ($method === 'POST' && empty($urlData)) {
 		// TODO Добавляем товар в базу данных

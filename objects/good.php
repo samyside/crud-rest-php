@@ -18,8 +18,8 @@ class Good {
 	*/
 	public function getAll() {
 		$result = array(
-			'error' => false,
-			'message' => '',
+			'error' => true,
+			'message' => 'unknown error',
 			'count' => 0,
 			'goods' => array()
 		);
@@ -28,8 +28,9 @@ class Good {
 		$statement = $this->db->prepare($queryGoods);
 		$statement->execute();
 		if ($statement->rowCount() > 0) {
+			$result['count'] = $statement->rowCount();
+			$result['message'] = 'success';
 			while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-				http_response_code(200);
 				extract($row);
 				$lastRow = array(
 					'id' => $id,
@@ -37,10 +38,8 @@ class Good {
 					'price' => $price
 				);
 				array_push($result['goods'], $lastRow);
-				// $count++;
 			}
-			$result['count'] = $statement->rowCount();
-			$result['message'] = 'success';
+			http_response_code(200);
 		} else {
 			return array(
 				http_response_code(404),
@@ -50,7 +49,6 @@ class Good {
 				'goods' => NULL
 			);
 		}
-		http_response_code(200);
 		return $result;
 	}
 
@@ -94,6 +92,10 @@ class Good {
 			'count' => 0,
 			'goods' => array()
 		);
+		if ($name == '') {
+			$result['message'] = 'epmty request';
+			return $result;
+		}
 		$query = 'SELECT id, name, price FROM goods WHERE name LIKE ?';
 		$statement = $this->db->prepare($query);
 		$statement->bindValue(1, "%${name}%");
